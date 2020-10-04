@@ -1,0 +1,31 @@
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: false
+    #https://github.com/ExampleDriven/spring-cloud-eureka-example/blob/master/customer-service/src/main/resources/application.yml
+
+    registryFetchIntervalSeconds: 1
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+  instance:
+    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 1
+server:
+  port: 8091
+spring:
+  application:
+    name: movie-catalog-service
+# ribbon.eureka.enabled: false
+zuul:
+  ignoredServices: "*"
+  routes:
+    movieinfo:
+      path: /movies/**
+      # serviceId as registed with Eureka. Enabled and used when ribbon.eureka.enabled is true.
+      serviceId: MOVIE-INFO-SERVICE
+      # zuul.routes.<the route>.url used when ribbon.eureka.enabled is false, serviceId is disabled.
+      #      url: http://localhost:8600/
+      # stripPrefix set to true if context path is set to /
+      stripPrefix: false
+  debug:
+    requests: true
