@@ -31,7 +31,8 @@ public class MovieCatalogResource {
 
 
         //get all rated movie ids
-        UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/users/"+userId, UserRating.class);
+//        UserRating userRating = restTemplate.getForObject("http://ratings-data-service/ratingsdata/users/"+userId, UserRating.class);
+        UserRating userRating = restTemplate.getForObject("http://localhost:8091/ratingsdata/users/"+userId, UserRating.class);
 
 
 
@@ -41,7 +42,7 @@ public class MovieCatalogResource {
 //            Movie movie = restTemplate.getForObject("http://localhost:8091/movies/"+rating.getMovieId(), Movie.class);
             Movie movie = webClientBuilder.build()
                     .get()
-                    .uri("http://movie-info-service/movies/"+userrating.getMovieId())
+                    .uri("http://localhost:8091/movies/"+userrating.getMovieId())
                     .retrieve()
                     .bodyToMono(Movie.class)
                     .block();

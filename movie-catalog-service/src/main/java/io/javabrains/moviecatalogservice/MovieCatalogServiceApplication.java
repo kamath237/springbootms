@@ -15,13 +15,13 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 public class MovieCatalogServiceApplication {
 
 	@Bean
-	@LoadBalanced
+//	@LoadBalanced
 	public RestTemplate getRestTemplate(){
 		return new RestTemplate();
 	}
 
 	@Bean
-	@LoadBalanced
+//	@LoadBalanced
 	public WebClient.Builder getWebClient(){
 		return WebClient.builder();
 	}
@@ -31,5 +31,5 @@ public class MovieCatalogServiceApplication {
 		SpringApplication.run(MovieCatalogServiceApplication.class, args);
 	}
 
-	
+
 }
