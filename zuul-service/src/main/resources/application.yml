@@ -1,0 +1,50 @@
+eureka:
+  client:
+    fetchRegistry: true
+    registerWithEureka: false
+    registryFetchIntervalSeconds: 1
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8090/eureka}
+  instance:
+    leaseExpirationDurationInSeconds: 2
+    leaseRenewalIntervalInSeconds: 1
+server:
+  port: 8089
+spring:
+  application:
+    name: zuul-service
+# ribbon.eureka.enabled: false
+
+# Disable Hystrix timeout globally (for all services)
+hystrix.command.default.execution.timeout.enabled: false
+
+
+
+zuul:
+  ignoredServices: "*"
+  routes:
+    cataloginfo:
+      path: /catalog/**
+      sensitiveHeaders:
+      serviceId: MOVIE-CATALOG-SERVICE
+      stripPrefix: false
+    movieinfo:
+      path: /movies/**
+      sensitiveHeaders:
+      # serviceId as registed with Eureka. Enabled and used when ribbon.eureka.enabled is true.
+      serviceId: MOVIE-INFO-SERVICE
+      # zuul.routes.<the route>.url used when ribbon.eureka.enabled is false, serviceId is disabled.
+      #      url: http://localhost:8600/
+      # stripPrefix set to true if context path is set to /
+      stripPrefix: false
+    ratinginfo:
+      path: /ratingsdata/**
+      sensitiveHeaders:
+      serviceId: RATINGS-DATA-SERVICE
+      stripPrefix: false
+  debug:
+    requests: true
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
