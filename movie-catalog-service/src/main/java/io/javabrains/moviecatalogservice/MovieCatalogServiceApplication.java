@@ -7,21 +7,21 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
-@EnableZuulProxy
 @EnableDiscoveryClient
 public class MovieCatalogServiceApplication {
 
+
+
 	@Bean
-//	@LoadBalanced
+	//@LoadBalanced
 	public RestTemplate getRestTemplate(){
 		return new RestTemplate();
 	}
 
 	@Bean
-//	@LoadBalanced
+	@LoadBalanced
 	public WebClient.Builder getWebClient(){
 		return WebClient.builder();
 	}

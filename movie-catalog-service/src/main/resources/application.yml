@@ -1,7 +1,7 @@
 eureka:
   client:
     fetchRegistry: true
-    registerWithEureka: false
+    registerWithEureka: true
     #https://github.com/ExampleDriven/spring-cloud-eureka-example/blob/master/customer-service/src/main/resources/application.yml
 
     registryFetchIntervalSeconds: 1
@@ -15,21 +15,15 @@ server:
 spring:
   application:
     name: movie-catalog-service
-# ribbon.eureka.enabled: false
-zuul:
-  ignoredServices: "*"
-  routes:
-    movieinfo:
-      path: /movies/**
-      # serviceId as registed with Eureka. Enabled and used when ribbon.eureka.enabled is true.
-      serviceId: MOVIE-INFO-SERVICE
-      # zuul.routes.<the route>.url used when ribbon.eureka.enabled is false, serviceId is disabled.
-      #      url: http://localhost:8600/
-      # stripPrefix set to true if context path is set to /
-      stripPrefix: false
-    ratinginfo:
-      path: /ratingsdata/**
-      serviceId: RATINGS-DATA-SERVICE
-      stripPrefix: false
-  debug:
-    requests: true
+
+# Disable Hystrix timeout globally (for all services)
+hystrix.command.default.execution.timeout.enabled: false
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+
+# Disable Spring Boot's "Whitelabel" default error page, so we can use our own
+error:
+  whitelabel:
+    enabled:  false
